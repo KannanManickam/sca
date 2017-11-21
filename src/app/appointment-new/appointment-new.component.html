@@ -1,0 +1,268 @@
+<div class="row">
+  <div class="col-6">
+    <h3>Add an Appointment</h3>
+  </div>
+  <div class="col-10 offset-1">
+    <form class="container was-validated" #appointmentForm="ngForm">
+
+      <!-- Customer Information Section -->
+      <div class="mx-auto" style="width: 230px;">
+        <h5>Customer Information</h5>
+      </div>
+
+      <div class="form-group row mt-4">
+        <div class="col-md-6">
+          <label for="customerName" class="col-sm-5 text-right">Customer name</label>
+          <div class="col-md-7 float-right">
+            <input #customerName="ngModel" [(ngModel)]="appointment.customerName" name="customerName" 
+              id="customerName" type="text" class="form-control form-control-sm" placeholder="Customer name" required>
+            <div class="invalid-feedback" *ngIf="customerName.touched && customerName.invalid">
+              Customer Name is required.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 datePickerDiv">
+          <label for="callDate" class="col-sm-5 text-right">Call Date</label>
+          <div class="col-md-7 float-right">
+            <material-datepicker
+              class="form-control form-control-sm"
+              #callDate="ngModel"
+              name="callDate"
+              [(ngModel)]="appointment.callDate"
+              dateFormat="DD-MM-YYYY"></material-datepicker>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-md-6">
+          <label for="address" class="col-sm-5 text-right">Address</label>
+          <div class="col-md-7 float-right">
+            <input #address="ngModel" [(ngModel)]="appointment.address" name="address" 
+              id="address" type="text" class="form-control form-control-sm" placeholder="Address" required>
+            <div class="invalid-feedback" *ngIf="address.touched && address.invalid">
+              Address is required.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="locality" class="col-sm-5 text-right">Locality</label>
+          <div class="col-md-7 float-right">
+            <select #locality="ngModel" [(ngModel)]="appointment.locality" name="locality" 
+              id="locality" class="form-control form-control-sm" required>
+              <option *ngFor="let c of localities$ | async" [value]="c.locality">
+                {{c.locality}}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="locality.touched && locality.invalid">
+              Locality is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-md-6">
+          <label for="phone" class="col-sm-5 text-right">Mobile No</label>
+          <div class="col-md-7 float-right">
+            <input #phone="ngModel" [(ngModel)]="appointment.phone" name="phone" 
+              id="phone" type="text" class="form-control form-control-sm" placeholder="Mobile No" required>
+            <div class="invalid-feedback" *ngIf="phone.touched && phone.invalid">
+              Mobile No is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Appointment Information Section -->
+      <div class="mx-auto" style="width: 240px;">
+        <h5>Appointment Information</h5>
+      </div>
+
+      <div class="form-group row mt-4">
+        <div class="col-md-6">
+          <label for="visitType" class="col-sm-5 text-right">Visit Type</label>
+          <div class="col-md-7 float-right">
+            <select #visitType="ngModel" [(ngModel)]="appointment.visitType" name="visitType" 
+              id="visitType" class="form-control form-control-sm" required>
+              <option *ngFor="let c of visitType$" [value]="c">
+                {{c}}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="visitType.touched && visitType.invalid">
+              Visit Type is required.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="staff" class="col-sm-5 text-right">Staff</label>
+          <div class="col-md-7 float-right">
+            <select #staff="ngModel" [(ngModel)]="appointment.staff" name="staff" 
+              id="staff" class="form-control form-control-sm" required>
+              <option *ngFor="let c of staff$" [value]="c">
+                {{c}}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="staff.touched && staff.invalid">
+              Staff is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-md-6">
+          <label for="productType" class="col-sm-5 text-right">Product Type</label>
+          <div class="col-md-7 float-right">
+            <select #productType="ngModel" [(ngModel)]="appointment.productType" name="productType" 
+              id="productType" class="form-control form-control-sm" required>
+              <option *ngFor="let c of productType$" [value]="c">
+                {{c}}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="productType.touched && productType.invalid">
+              Product Type is required.
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="brand" class="col-sm-5 text-right">Brand</label>
+          <div class="col-md-7 float-right">
+            <select #brand="ngModel" [(ngModel)]="appointment.brand" name="brand" 
+              id="brand" class="form-control form-control-sm" required>
+              <option *ngFor="let c of brand$" [value]="c">
+                {{c}}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="brand.touched && brand.invalid">
+              Brand is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-md-6 datePickerDiv">
+          <label for="appointmentDate" class="col-sm-5 text-right">Appointment Date</label>
+          <div class="col-md-7 float-right">
+            <material-datepicker
+              class="form-control form-control-sm"
+              #appointmentDate="ngModel"
+              name="appointmentDate"
+              [(ngModel)]="appointment.appointmentDate"
+              dateFormat="DD-MM-YYYY"></material-datepicker>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="status" class="col-sm-5 text-right">Status</label>
+          <div class="col-md-7 float-right">
+            <select #status="ngModel" [(ngModel)]="appointment.status" name="status" 
+              id="status" class="form-control form-control-sm" required>
+              <option *ngFor="let c of status$" [value]="c">
+                {{c}}
+              </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="status.touched && status.invalid">
+              Status is required.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+      
+      <!-- Spares & Service Information Section -->
+      <div class="mx-auto" style="width: 270px;">
+        <h5>Spares & Service Information</h5>
+      </div>
+
+      <div class="form-group row offset-4 mt-4">
+        <label for="svcCharge" class="col-sm-3 text-right">Service Charge</label>
+        <div class="col-md-4">
+          <input #svcCharge="ngModel" [(ngModel)]="appointment.svcCharge" name="svcCharge" 
+            id="svcCharge" type="text" class="form-control form-control-sm" placeholder="In Rupees" required>
+          <div class="invalid-feedback" *ngIf="svcCharge.touched && svcCharge.invalid">
+            Service Charge is required.
+          </div>
+        </div>
+      </div>
+
+      <div id="sparesDiv"></div>
+
+      <div class="form-group row offset-4 mt-4">
+        <div class="input-group col-md-3">
+          <select #spareName="ngModel" [(ngModel)]="appointment.spareName" name="spareName" 
+            id="spareName" class="form-control form-control-sm" required>
+            <option *ngFor="let c of spareName$" [value]="c">
+              {{c}}
+            </option>
+          </select>          
+        </div>
+        <div class="col-md-4">
+          <input #spareAmount="ngModel" [(ngModel)]="appointment.spareAmount" name="spareAmount" 
+            id="spareAmount" type="text" class="form-control form-control-sm" placeholder="In Rupees" required>
+        </div>
+        <div class="col-md-1">
+          <button class="btn btn-sm btn-success" type="button" (click)="addSpares()"> 
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group row offset-4">
+        <label for="sparesTotal" class="col-sm-3 text-right">Spares Total</label>
+        <div class="col-md-4">
+          <input #sparesTotal="ngModel" [(ngModel)]="appointment.sparesTotal" name="sparesTotal" 
+            id="sparesTotal" type="text" class="form-control form-control-sm" placeholder="In Rupees" required>
+        </div>
+      </div>
+      <div class="form-group row offset-4">
+        <label for="totalAmount" class="col-sm-3 text-right"><strong>Total Amount</strong></label>
+        <div class="col-md-4">
+          <input #totalAmount="ngModel" [(ngModel)]="appointment.totalAmount" name="totalAmount" 
+            id="totalAmount" type="text" class="form-control form-control-sm" placeholder="In Rupees" required>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Payment Information Section -->
+      <div class="mx-auto" style="width: 270px;">
+        <h5>Payment Information</h5>
+      </div>
+
+      <div class="form-group row offset-4 mt-4">
+        <label for="rcNo" class="col-sm-3 text-right">Receipt No</label>
+        <div class="col-md-4">
+          <input #rcNo="ngModel" [(ngModel)]="appointment.rcNo" name="rcNo" 
+            id="rcNo" type="text" class="form-control form-control-sm" placeholder="Receipt No" required>
+        </div>
+      </div>
+      <div class="form-group row offset-4 mt-4 datePickerDiv">
+        <label for="cashRcvDate" class="col-sm-3 text-right">Cash Received Date</label>
+        <div class="col-md-4">
+          <material-datepicker
+            class="form-control form-control-sm"
+            #cashRcvDate="ngModel"
+            name="cashRcvDate"
+            [(ngModel)]="appointment.cashRcvDate"
+            dateFormat="DD-MM-YYYY"></material-datepicker>
+        </div>
+      </div>
+
+      <hr>        
+      <button 
+        
+        (click)="createAppointment()"
+        class="btn btn-primary offset-4 mb-4">Save Appointment</button>
+      <button 
+        (click)="resetAppointmentForm()"
+        class="btn btn-secondary mb-4">Reset</button>
+
+      
+    </form>
+  </div>
+  </div>
+  

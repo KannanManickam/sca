@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col-3">
+    <h3>All Appointments</h3>
+  </div>
+  
+  <div class="col">
+    <p>
+      <input #query (keyup)="filter(query.value)"
+      type="text" class="form-control" placeholder="Search by Customer Name...">
+    </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-4">
+    <div class="float-left mt-sm-1">
+      Select Area:
+    </div>  
+    <div class="float-left ml-sm-3" style="width:50%">
+      <select (change)="onLocalityChange($event.target.value)" class="form-control">
+        <option value="">All Area</option>
+        <option *ngFor="let c of localities$ | async" [value]="c.locality">
+          {{c.locality}}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="col">
+    <div class="float-left mt-sm-1">
+      Select Status:
+    </div>  
+    <div class="btn-group ml-sm-3" data-toggle="buttons">
+      <label class="btn btn-primary btn-pending">
+        <input type="radio" name="options" id="option2" autocomplete="off"
+          (click)="onStatusChange('PENDING')"> Pending
+        <i class="fa fa-star-o" aria-hidden="true"></i>
+      </label>
+      <label class="btn btn-primary btn-ongoing">
+        <input type="radio" name="options" id="option1" autocomplete="off"
+          (click)="onStatusChange('ONGOING')"> OnGoing
+        <i class="fa fa-star-half-o" aria-hidden="true"></i>
+      </label>
+      <label class="btn btn-primary btn-complete">
+        <input type="radio" name="options" id="option3" autocomplete="off"
+          (click)="onStatusChange('COMPLETE')"> Completed
+        <i class="fa fa-star" aria-hidden="true"></i>
+      </label>
+    </div>
+  </div>
+</div>
+  
+<div class="row">
+  <div class="col-12">
+    <ngx-datatable
+      class="bootstrap"    
+      [rows]="rows"
+      [columnMode]="'force'"
+      [headerHeight]="30"
+      [footerHeight]="30"
+      [limit]="10"
+      [rowHeight]="'auto'">
+
+      <ngx-datatable-column prop="customerName" name="Customer Name"></ngx-datatable-column>
+      <ngx-datatable-column prop="svcDate" name="Appointment Date"></ngx-datatable-column>
+      <ngx-datatable-column prop="employeeName" name="Staff"></ngx-datatable-column>
+      <ngx-datatable-column prop="phone" name="Mobile"></ngx-datatable-column>
+      <ngx-datatable-column prop="area" name="Locality"></ngx-datatable-column>
+      <ngx-datatable-column name="Visit Type"></ngx-datatable-column>
+      <ngx-datatable-column prop="status" name="Status" headerClass="is-status" [cellClass]="getCellClass">
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

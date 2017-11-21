@@ -1,0 +1,20 @@
+<mat-form-field>
+  <mat-select #spareName="ngModel" [(ngModel)]="appointment.spareName" name="spareName" 
+    id="spareName" required placeholder="Select Spares">
+    <mat-option>--</mat-option>
+    <mat-option *ngFor="let c of spareName$" [value]="c">
+      {{c}}
+    </mat-option>
+  </mat-select>  
+  <mat-error *ngIf="spareName.touched && spareName.invalid">
+    Spares is required.
+  </mat-error>        
+</mat-form-field>
+<!-- <div class="col-md-4"> -->
+<mat-form-field class="ml-2">
+  <input matInput #spareAmount="ngModel" [(ngModel)]="appointment.spareAmount" name="spareAmount" 
+    id="spareAmount" type="text" placeholder="Spare Amount in INR" required>
+  <mat-error *ngIf="spareAmount.touched && spareAmount.invalid">
+    Spare Amount is required.
+  </mat-error> 
+</mat-form-field>

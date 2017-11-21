@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-6">
+    <h2>Dashboard</h2>
+    <h4>Appointments : Upcoming</h4> 
+
+    <ngx-datatable
+      class="bootstrap"    
+      [rows]="upcomingRows"
+      [columnMode]="'force'"
+      [headerHeight]="30"
+      [footerHeight]="30"
+      [limit]="7"
+      [rowHeight]="'auto'"
+      [scrollbarH]="true">
+
+      <ngx-datatable-column name="Customer Name"></ngx-datatable-column>
+      <ngx-datatable-column prop="area" name="Locality"></ngx-datatable-column>
+      <ngx-datatable-column prop="phone" name="Mobile"></ngx-datatable-column>
+      <ngx-datatable-column name="Visit Type"></ngx-datatable-column>
+      <ngx-datatable-column prop="employeeName" name="Staff"></ngx-datatable-column>
+      <ngx-datatable-column prop="svcDate" name="Appointment Date"></ngx-datatable-column>
+      <ngx-datatable-column prop="status" name="Status" headerClass="is-status" [cellClass]="getCellClass">
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+
+  <div class="col-6">
+    <p>
+        <input #query (keyup)="filter(query.value)"
+            type="text" class="form-control" placeholder="Search by Customer Name...">
+    </p>
+    <h4>Appointment : Localitywise</h4>
+    <chart [type]="chartType" [data]="chartData" [options]="chartOptions"></chart>
+  </div>
+</div>
+
+<div class="mt-5"></div>
+
+<div class="row">
+  <div class="col-12">
+    <h4>Appointments : Closed</h4> 
+
+    <ngx-datatable
+      class="bootstrap"    
+      [rows]="completedRows"
+      [columnMode]="'force'"
+      [headerHeight]="30"
+      [footerHeight]="30"
+      [limit]="10"
+      [rowHeight]="'auto'">
+
+      <ngx-datatable-column prop="svcDate" name="Call Date"></ngx-datatable-column>
+      <ngx-datatable-column name="Customer Name"></ngx-datatable-column>
+      <ngx-datatable-column prop="area" name="Locality"></ngx-datatable-column>
+      <ngx-datatable-column prop="phone" name="Mobile"></ngx-datatable-column>
+      <ngx-datatable-column name="Visit Type"></ngx-datatable-column>
+      <ngx-datatable-column prop="employeeName" name="Staff"></ngx-datatable-column>
+      <ngx-datatable-column prop="svcDate" name="Appointment Date"></ngx-datatable-column>
+      <ngx-datatable-column prop="status" name="Status" headerClass="is-status" [cellClass]="getCellClass">
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="svcDate" name="Closed Date"></ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

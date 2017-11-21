@@ -1,0 +1,15 @@
+.card-header {
+    background-color: #343a40 !important;
+    color: #ededed;
+}
+
+.vertical-line {
+    border-right: 1.5px dashed rgba(136, 129, 129, 0.3);
+}
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1.5px dashed rgba(136, 129, 129, 0.3);
+}

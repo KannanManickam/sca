@@ -1,0 +1,443 @@
+<!-- <div class="container">
+  <div class="row">
+      <div class="col-12">
+          <div class="text-center">
+              <h2>Appointments #33221</h2>
+          </div>
+          <hr>
+          <div class="row">
+              <div class="col-md-4">
+                  <div class="card height">
+                      <div class="card-header text-center">Customer Info</div>
+                      <div class="card-body">
+                          <strong>Customer Name:</strong> Saravana Kumar<br>
+                          <strong>Contact Number:</strong> 8855663322<br>
+                          <strong>Address:</strong> Hosur<br>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-8">
+                  <div class="card height">
+                      <div class="card-header text-center">Appoitment Info</div>
+                      <div class="card-body">
+                        <div class="col-md-7 float-left">
+                          <strong>Appointment Date:</strong> 3rd Dec 2017 @11:00 AM<br>
+                          <strong>Product Type:</strong> Chimney<br>
+                          <strong>Brand:</strong> Elice<br>
+                        </div>
+                        <div class="col-md-5 float-right">
+                          <strong>Staff:</strong> Thirupathi<br>
+                          <strong>Locality:</strong> Hosur<br>
+                          <strong>Visit Type:</strong> INSTALLATION<br>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          
+          <div class="row my-3">
+            <div class="col-md-12 text-center">
+              <div class="dropdown">
+                  <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    STATUS : ONGOING
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">ONGOING</a>
+                    <a class="dropdown-item" href="#">PENDING</a>
+                    <a class="dropdown-item" href="#">COMPLETED</a>
+                  </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row my-3">
+            <div class="col-md-12 text-center">
+              <button type="button" class="btn btn-warning mr-3">CLOSE APPOINTMENT</button>
+              <button type="button" class="btn btn-secondary">POSTPONE</button>
+            </div>
+          </div>
+      </div>
+  </div>
+</div> -->
+
+<div class="row">
+  <div class="col-6">
+    <h3>Appointment Status #{{appointment.rcNo}}</h3>
+  </div>
+  <div class="col-10 offset-1">
+    <form class="container was-validated" #appointmentForm="ngForm">
+
+      <!-- Customer Information Section -->
+      <div class="row">
+        <div class="col-md-6 vertical-line">
+          <div class="mx-auto" style="width: 230px;">
+            <h5>Customer Information</h5>
+          </div>
+
+          <div class="form-group row mt-4">
+            <div class="col-md-6">
+              <mat-form-field>
+                <input matInput #customerName="ngModel" [(ngModel)]="appointment.customerName" 
+                    name="customerName" id="customerName" type="text" placeholder="Customer name" required>
+                <mat-error *ngIf="customerName.touched && customerName.invalid">
+                  Customer Name is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 datePickerDiv">
+              <mat-form-field>
+                <input matInput [matDatepicker]="callDate" 
+                  (focus)="callDate.open()"
+                  [min]="minDate" [max]="maxDate"
+                  placeholder="Call Date"  name="callDate"
+                  #callDate="ngModel" [(ngModel)]="appointment.callDate" required>
+                <mat-datepicker-toggle matSuffix [for]="callDate"></mat-datepicker-toggle>
+                <mat-datepicker touchUi="true" #callDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-6">
+              <mat-form-field>
+                <input matInput #address="ngModel" [(ngModel)]="appointment.address" name="address" 
+                  id="address" type="text" placeholder="Address" required>
+                <mat-error *ngIf="address.touched && address.invalid">
+                  Address is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-select placeholder="Select Area" #locality="ngModel" name="locality" 
+                  [(ngModel)]="appointment.locality" id="locality" required>
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of localities$ | async" [value]="c.locality">
+                    {{c.locality}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="locality.hasError('required')">
+                  Locality is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-6">
+              <mat-form-field>
+                <input matInput #phone="ngModel" [(ngModel)]="appointment.phone" name="phone" 
+                  id="phone" type="text" placeholder="Mobile No" required>
+                <mat-error *ngIf="phone.touched && phone.invalid">
+                  Mobile No is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="mx-auto" style="width: 240px;">
+            <h5>Appointment Information</h5>
+          </div>
+  
+          <div class="form-group row mt-4">
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-select #visitType="ngModel" [(ngModel)]="appointment.visitType" name="visitType" 
+                  id="visitType" required placeholder="Select Visit Type">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of visitType$" [value]="c">
+                    {{c}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="visitType.touched && visitType.invalid">
+                  Visit Type is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-select #staff="ngModel" [(ngModel)]="appointment.staff" name="staff" 
+                  id="staff" required placeholder="Select Staff">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of staff$" [value]="c">
+                    {{c}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="staff.touched && staff.invalid">
+                  Staff is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <div class="form-group row">
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-select #productType="ngModel" [(ngModel)]="appointment.productType" name="productType" 
+                  id="productType" required placeholder="Select Product Type">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of productType$" [value]="c">
+                    {{c}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="productType.touched && productType.invalid">
+                  Product Type is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 mb-3">
+              <mat-form-field>
+                <mat-select #brand="ngModel" [(ngModel)]="appointment.brand" name="brand" 
+                  id="brand" required placeholder="Select Brand">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of brand$" [value]="c">
+                    {{c}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="brand.touched && brand.invalid">
+                  Brand is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+  
+          <div class="form-group row">
+            <div class="col-md-6 datePickerDiv">
+              <mat-form-field>
+                <input matInput [matDatepicker]="appointmentDate" 
+                  (focus)="appointmentDate.open()"
+                  [min]="minDate" [max]="maxDate"
+                  placeholder="Appointment Date"  name="appointmentDate"
+                  #appointmentDate="ngModel" [(ngModel)]="appointment.appointmentDate">
+                <mat-datepicker-toggle matSuffix [for]="appointmentDate"></mat-datepicker-toggle>
+                <mat-datepicker touchUi="true" #appointmentDate></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field>
+                <mat-select #status="ngModel" [(ngModel)]="appointment.status" name="status" 
+                  id="status" required placeholder="Select Status">
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let c of status$" [value]="c">
+                    {{c}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="status.touched && status.invalid">
+                  Status is required.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Appointment Information Section -->
+      <!-- <div>
+        <div class="mx-auto" style="width: 240px;">
+          <h5>Appointment Information</h5>
+        </div>
+
+        <div class="form-group row mt-4">
+          <div class="col-md-6">
+            <mat-form-field>
+              <mat-select #visitType="ngModel" [(ngModel)]="appointment.visitType" name="visitType" 
+                id="visitType" required placeholder="Select Visit Type">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let c of visitType$" [value]="c">
+                  {{c}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="visitType.touched && visitType.invalid">
+                Visit Type is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field>
+              <mat-select #staff="ngModel" [(ngModel)]="appointment.staff" name="staff" 
+                id="staff" required placeholder="Select Staff">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let c of staff$" [value]="c">
+                  {{c}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="staff.touched && staff.invalid">
+                Staff is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-6">
+            <mat-form-field>
+              <mat-select #productType="ngModel" [(ngModel)]="appointment.productType" name="productType" 
+                id="productType" required placeholder="Select Product Type">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let c of productType$" [value]="c">
+                  {{c}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="productType.touched && productType.invalid">
+                Product Type is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6 mb-3">
+            <mat-form-field>
+              <mat-select #brand="ngModel" [(ngModel)]="appointment.brand" name="brand" 
+                id="brand" required placeholder="Select Brand">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let c of brand$" [value]="c">
+                  {{c}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="brand.touched && brand.invalid">
+                Brand is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-6 datePickerDiv">
+            <mat-form-field>
+              <input matInput [matDatepicker]="appointmentDate" 
+                (focus)="appointmentDate.open()"
+                [min]="minDate" [max]="maxDate"
+                placeholder="Appointment Date"  name="appointmentDate"
+                #appointmentDate="ngModel" [(ngModel)]="appointment.appointmentDate">
+              <mat-datepicker-toggle matSuffix [for]="appointmentDate"></mat-datepicker-toggle>
+              <mat-datepicker touchUi="true" #appointmentDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field>
+              <mat-select #status="ngModel" [(ngModel)]="appointment.status" name="status" 
+                id="status" required placeholder="Select Status">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let c of status$" [value]="c">
+                  {{c}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="status.touched && status.invalid">
+                Status is required.
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- <hr> -->
+      
+      <!-- Spares & Service Information Section -->
+      <div>
+        <div class="mx-auto" style="width: 270px;">
+          <h5>Spares & Service Information</h5>
+        </div>
+
+        <div class="form-group row offset-4 mt-4">
+          <mat-form-field>
+            <input matInput #svcCharge="ngModel" [(ngModel)]="appointment.svcCharge" name="svcCharge" 
+              id="svcCharge" type="text" placeholder="Service Charge in INR" required>
+            <mat-error *ngIf="svcCharge.touched && svcCharge.invalid">
+              Service Charge is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div id="sparesDiv"></div>
+
+        <div class="form-group row offset-4 mt-4">
+          <!-- <mat-form-field>
+            <mat-select #spareName="ngModel" [(ngModel)]="appointment.spareName" name="spareName" 
+              id="spareName" required placeholder="Select Spares">
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let c of spareName$" [value]="c">
+                {{c}}
+              </mat-option>
+            </mat-select>  
+            <mat-error *ngIf="spareName.touched && spareName.invalid">
+              Spares is required.
+            </mat-error>        
+          </mat-form-field>
+          <mat-form-field class="ml-2">
+            <input matInput #spareAmount="ngModel" [(ngModel)]="appointment.spareAmount" name="spareAmount" 
+              id="spareAmount" type="text" placeholder="Spare Amount in INR" required>
+            <mat-error *ngIf="spareAmount.touched && spareAmount.invalid">
+              Spare Amount is required.
+            </mat-error> 
+          </mat-form-field> -->
+          <spare></spare>
+          <!-- </div> -->
+          <div class="col-md-1">
+            <button class="btn btn-sm btn-success" type="button" (click)="addSpares()"> 
+              <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group row offset-4">
+          <mat-form-field>
+            <input matInput #sparesTotal="ngModel" [(ngModel)]="appointment.sparesTotal" name="sparesTotal" 
+              id="sparesTotal" type="text" placeholder="Spares Total in INR" required>
+            <mat-error *ngIf="sparesTotal.touched && sparesTotal.invalid">
+              Spares Total is required.
+            </mat-error> 
+          </mat-form-field>
+        </div>
+        <div class="form-group row offset-4">
+          <mat-form-field>
+            <input matInput #totalAmount="ngModel" [(ngModel)]="appointment.totalAmount" name="totalAmount" 
+              id="totalAmount" type="text" placeholder="Total Amount in INR" required>
+            <mat-error *ngIf="totalAmount.touched && totalAmount.invalid">
+              Total Amount is required.
+            </mat-error> 
+          </mat-form-field>
+        </div>
+      </div>
+
+      <hr>
+
+      <!-- Payment Information Section -->
+      <div>
+        <div class="mx-auto" style="width: 270px;">
+          <h5>Payment Information</h5>
+        </div>
+
+        <div class="form-group row offset-4 mt-4">  
+          <mat-form-field>
+            <input matInput #rcNo="ngModel" [(ngModel)]="appointment.rcNo" name="rcNo" 
+              id="rcNo" type="text" placeholder="Receipt No" required>
+            <mat-error *ngIf="rcNo.touched && rcNo.invalid">
+              Receipt No is required.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-group row offset-4 mt-4 datePickerDiv">
+          <mat-form-field>
+            <input matInput [matDatepicker]="cashRcvDate" 
+              (focus)="cashRcvDate.open()"
+              [min]="minDate" [max]="maxDate"
+              placeholder="Cash Received Date"  name="cashRcvDate"
+              #cashRcvDate="ngModel" [(ngModel)]="appointment.cashRcvDate">
+            <mat-datepicker-toggle matSuffix [for]="cashRcvDate"></mat-datepicker-toggle>
+            <mat-datepicker touchUi="true" #cashRcvDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <button         
+        (click)="updateAppointment()"
+        class="btn btn-primary offset-4 mb-4">Update Appointment</button>
+      <button 
+        (click)="deleteAppointment()"
+        class="btn btn-danger mb-4">Delete Appointment</button>
+
+    </form>
+  </div>
+  </div>
+  
